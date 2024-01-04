@@ -4,12 +4,12 @@ import { changeFilterValue } from '../../redux/redux-bundle/filterSlice';
 import { getFilterValue, getTheme } from '../../redux/redux-bundle/selectors';
 import { TbUserSearch } from 'react-icons/tb';
 
-export function Filter() {
+export const Filter: React.FC = () => {
   const dispatch = useDispatch();
-  const filterValue = useSelector(getFilterValue);
-  const isThemeDark = useSelector(getTheme);
+  const filterValue: string = useSelector(getFilterValue);
+  const isThemeDark: boolean = useSelector(getTheme);
 
-  const handleInputChange = event => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     dispatch(changeFilterValue(value));
   };
@@ -49,4 +49,4 @@ export function Filter() {
       />
     </label>
   );
-}
+};

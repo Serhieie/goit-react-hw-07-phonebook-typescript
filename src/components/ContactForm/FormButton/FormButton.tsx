@@ -1,7 +1,16 @@
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { PulseLoader } from 'react-spinners';
+import React from 'react';
 
-export const FormButton = ({ isLoading, isThemeDark }) => {
+interface FormButtonProps {
+  isThemeDark: boolean;
+  isLoading: boolean;
+}
+
+export const FormButton: React.FC<FormButtonProps> = ({
+  isLoading,
+  isThemeDark,
+}) => {
   return (
     <button
       type="submit"

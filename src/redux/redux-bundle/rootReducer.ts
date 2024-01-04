@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { contactsApi } from '../rtk-apiService/rtkq-api';
 import { persistedFilterReducer } from './filterSlice';
-import { persistedThemeReducer } from '../theme/themeReducer.js';
+import { persistedThemeReducer } from '../theme/themeReducer';
 
 const rootReducer = combineReducers({
   [contactsApi.reducerPath]: contactsApi.reducer,

@@ -1,5 +1,23 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+interface Contact {
+  createdAt: string;
+  id?: string;
+  name: string;
+  phone: string;
+}
+
+interface GetAllContactsResponse extends Array<Contact> {}
+
+interface PostContactRequest {
+  name: string;
+  phone: string;
+}
+
+interface DeleteContactRequest {
+  id: string;
+}
+
 export const contactsApi = createApi({
   reducerPath: 'mockApi',
   baseQuery: fetchBaseQuery({
@@ -7,12 +25,12 @@ export const contactsApi = createApi({
   }),
   tagTypes: ['Contact'],
   endpoints: builder => ({
-    getAllContacts: builder.query({
+    getAllContacts: builder.query<GetAllContactsResponse, void>({
       query: () => `contacts`,
       providesTags: ['Contact'],
     }),
 
-    postContact: builder.mutation({
+    postContact: builder.mutation<Contact, PostContactRequest>({
       query: contactData => ({
         url: `contacts`,
         method: 'POST',
@@ -20,8 +38,9 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Contact'],
     }),
-    deleteContact: builder.mutation({
-      query: id => ({
+
+    deleteContact: builder.mutation<void, DeleteContactRequest>({
+      query: ({ id }) => ({
         url: `contacts/${id}`,
         method: 'DELETE',
       }),

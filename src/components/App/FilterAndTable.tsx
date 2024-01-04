@@ -1,7 +1,13 @@
-import { ContactTable } from 'components/ContactTable/ContactTable';
-import { Filter } from 'components/Filter/Filter';
+import { ContactTable } from '../ContactTable/ContactTable';
+import { Filter } from '../Filter/Filter';
 
-export const FilterAndTable = ({ isThemeDark }) => {
+interface FilterAndTableProps {
+  isThemeDark: boolean;
+}
+
+export const FilterAndTable: React.FC<FilterAndTableProps> = ({
+  isThemeDark,
+}) => {
   return (
     <div
       className={`${

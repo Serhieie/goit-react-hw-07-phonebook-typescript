@@ -1,25 +1,33 @@
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import { PulseLoader } from 'react-spinners';
-import normalizePhoneNumber from 'helpers/numberNormalize';
+import normalizePhoneNumber from '../../../helpers/numberNormalize';
 import { getTheme } from '../../../redux/redux-bundle/selectors';
 import { ModalFordelete } from './ModalForDelete';
 import { useState } from 'react';
 import { useDeleteContactMutation } from '../../../redux/rtk-apiService/rtkq-api';
+import { Contact } from './ModalForDelete';
 
-export function ContactTableItem({ contact, index, data }) {
-  const isThemeDark = useSelector(getTheme);
-  const windowWidth = window.innerWidth;
-  const [modalIsOpen, setIsOpen] = useState(false);
+interface ContactTableItemProps {
+  contact: Contact;
+  index: number;
+}
+
+export const ContactTableItem: React.FC<ContactTableItemProps> = ({
+  contact,
+  index,
+}) => {
+  const isThemeDark: boolean = useSelector(getTheme);
+  const windowWidth: number = window.innerWidth;
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
   const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  const handleDelete = id => {
-    deleteContact(id);
+  const handleDelete = (id: string): void => {
+    deleteContact({ id });
     setIsOpen(false);
   };
 
@@ -96,16 +104,4 @@ export function ContactTableItem({ contact, index, data }) {
       />
     </tr>
   );
-}
-
-const ContactType = {
-  createdAt: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-};
-
-ContactTableItem.propTypes = {
-  contact: PropTypes.shape(ContactType).isRequired,
-  index: PropTypes.number,
 };

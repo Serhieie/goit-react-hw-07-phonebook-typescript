@@ -1,21 +1,42 @@
-import { settings, settings2 } from 'helpers/deleteModalSettings';
-import { useRef } from 'react';
-
-import Modal from 'react-modal';
+import { settings, settings2 } from '../../../helpers/deleteModalSettings';
+import React, { useRef } from 'react';
+import Modal, { Styles } from 'react-modal';
 
 Modal.setAppElement('#root');
 
-export const ModalFordelete = ({
+export interface Contact {
+  createdAt: string;
+  id?: string;
+  name: string;
+  phone: string;
+}
+
+interface ModalFordeleteProps {
+  isThemeDark: boolean;
+  contact: Contact;
+  modalIsOpen: boolean;
+  closeModal: () => void;
+  handleDelete: (id: string) => void;
+}
+
+export const ModalFordelete: React.FC<ModalFordeleteProps> = ({
   isThemeDark,
   contact,
   modalIsOpen,
   closeModal,
   handleDelete,
 }) => {
-  const subtitle = useRef();
+  const subtitle = useRef<HTMLHeadingElement>(null);
+
+  const handleDeleteButtonClick = () => {
+    if (contact.id) {
+      handleDelete(contact.id);
+    }
+  };
+
   return (
     <Modal
-      style={isThemeDark ? settings2 : settings}
+      style={isThemeDark ? (settings2 as Styles) : (settings as Styles)}
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
       contentLabel="Delete Confirmation"
@@ -35,7 +56,7 @@ export const ModalFordelete = ({
              md:mt-6 gap-1 "
       >
         <button
-          onClick={() => handleDelete(contact.id)}
+          onClick={handleDeleteButtonClick}
           className={`${
             isThemeDark
               ? ' bg-deleteBtnColorDark hover:bg-deleteBtnHoverColorDark text-darkFontDark '

@@ -1,8 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const initialState = {
+export interface FilterState {
+  filterValue: string;
+}
+
+const initialState: FilterState = {
   filterValue: '',
 };
 
@@ -10,7 +14,7 @@ export const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    changeFilterValue(state, action) {
+    changeFilterValue(state, action: PayloadAction<string>) {
       state.filterValue = action.payload;
     },
   },
@@ -19,7 +23,7 @@ export const filterSlice = createSlice({
 const persistConfig = {
   key: 'filter',
   storage,
-  blacklist: ['contacts', 'form'],
+  blacklist: ['contacts'],
 };
 
 export const persistedFilterReducer = persistReducer(
@@ -28,3 +32,7 @@ export const persistedFilterReducer = persistReducer(
 );
 
 export const { changeFilterValue } = filterSlice.actions;
+export const getFilterValue = (state: { filter: FilterState }) =>
+  state.filter.filterValue;
+
+export default filterSlice.reducer;

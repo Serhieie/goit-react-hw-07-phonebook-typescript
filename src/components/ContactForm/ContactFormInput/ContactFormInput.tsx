@@ -1,8 +1,13 @@
 import { LiaUserEditSolid } from 'react-icons/lia';
 import { FiPhoneMissed } from 'react-icons/fi';
 import { Field } from 'formik';
+import React from 'react';
 
-export function Inputs({ isThemeDark }) {
+interface InputsProps {
+  isThemeDark: boolean;
+}
+
+export const Inputs: React.FC<InputsProps> = ({ isThemeDark }) => {
   return (
     <>
       <label
@@ -52,4 +57,4 @@ export function Inputs({ isThemeDark }) {
       />
     </>
   );
-}
+};

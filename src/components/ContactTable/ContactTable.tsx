@@ -5,10 +5,10 @@ import { useGetAllContactsQuery } from '../../redux/rtk-apiService/rtkq-api';
 import { getFilterValue, getTheme } from '../../redux/redux-bundle/selectors';
 import { TableHead } from './TableHead/TableHead';
 
-export function ContactTable() {
+export const ContactTable: React.FC = () => {
   const { data, error, isLoading } = useGetAllContactsQuery();
-  const filter = useSelector(getFilterValue);
-  const isThemeDark = useSelector(getTheme);
+  const filter: string = useSelector(getFilterValue);
+  const isThemeDark: boolean = useSelector(getTheme);
 
   const getVisibleContacts = useMemo(() => {
     const normalizedFilter = filter.toLowerCase();
@@ -60,7 +60,7 @@ export function ContactTable() {
           {!error &&
             getVisibleContacts.map((contact, index) => (
               <ContactTableItem
-                key={contact.id}
+                key={contact.id || index}
                 contact={contact}
                 index={index}
               />
@@ -69,4 +69,4 @@ export function ContactTable() {
       </table>
     </div>
   );
-}
+};

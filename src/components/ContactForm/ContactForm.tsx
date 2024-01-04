@@ -1,9 +1,9 @@
 import { Formik, Form } from 'formik';
-import { schema } from 'constants';
-import { succesMessage, nameCheckerError } from 'helpers/notiflix';
+import { schema } from '../../constants/schema';
+import { succesMessage, nameCheckerError } from '../../helpers/notiflix';
 import { Inputs } from './ContactFormInput/ContactFormInput';
-import normalizePhoneNumber from 'helpers/numberNormalize';
-import normalizeName from 'helpers/nameNormalize';
+import normalizePhoneNumber from '../../helpers/numberNormalize';
+import normalizeName from '../../helpers/nameNormalize';
 import {
   usePostContactMutation,
   useGetAllContactsQuery,
@@ -11,16 +11,23 @@ import {
 import { FormButton } from './FormButton/FormButton';
 import { ErrorMessages } from './ErrorMessages/ErrorMessages';
 
+interface ContactFormProps {
+  isThemeDark: boolean;
+}
+
 const initialValues = {
   name: '',
   phone: '',
 };
 
-export function ContactForm({ isThemeDark }) {
-  const { data } = useGetAllContactsQuery();
+export const ContactForm: React.FC<ContactFormProps> = ({ isThemeDark }) => {
+  const { data } = useGetAllContactsQuery(undefined);
   const [addContact, { isLoading }] = usePostContactMutation();
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = (
+    values: { name: string; phone: string },
+    { resetForm }: { resetForm: () => void }
+  ) => {
     const { name, phone } = values;
 
     let someNum = normalizePhoneNumber(phone);
@@ -34,7 +41,7 @@ export function ContactForm({ isThemeDark }) {
       });
     const isPhoneExists =
       Array.isArray(data) &&
-      data.some(contact => {
+      data.some((contact: { name: string; phone: string }) => {
         return normalizePhoneNumber(contact.phone) === someNum;
       });
 
@@ -72,4 +79,4 @@ export function ContactForm({ isThemeDark }) {
       </Form>
     </Formik>
   );
-}
+};

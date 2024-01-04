@@ -1,4 +1,4 @@
-export default function normalizeName(value) {
+export default function normalizeName(value: string): string {
   const splited = value.split(' ').map(word => {
     if (word.length === 0) return '';
     const firstChar = word[0];
